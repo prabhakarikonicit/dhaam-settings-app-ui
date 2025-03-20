@@ -1,6 +1,8 @@
 export const mfConfig = {
   name: "dhaam_settings_app_ui",
-  filename: "remoteEntry.js",
-  exposes: {"./SettingsDiv": "./src/SettingsDiv"},
+  exposes: {
+    "./ConfigurationsComponent": "./src/localComponents/configurations/configurationscomponent",
+    "./tailwindStyles": "./src/index.css"
+  },
   shared: ["react", "react-dom"],
 };

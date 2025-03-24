@@ -14,6 +14,12 @@ export interface Column {
   renderCell?: (value: any, row: any) => ReactNode;
 }
 
+export interface MenuItem {
+  icon: React.ReactNode;
+  label: string;
+  id: string;
+}
+
 export interface Row {
   id: string;
   [key: string]: any;

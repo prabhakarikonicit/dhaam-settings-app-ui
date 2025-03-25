@@ -3,6 +3,7 @@ export const mfConfig = {
   exposes: {
     "./ConfigurationsComponent": "./src/localComponents/configurations/configurationscomponent",
     "./MarketPlaceDesignComponent": "./src/localComponents/marketPlaceDesign/marketplacedesigncomponent",
+    "./IntegrationComponent": "./src/localComponents/integration/integrationComponent",
     "./tailwindStyles": "./src/index.css"
   },
   shared: ["react", "react-dom"],

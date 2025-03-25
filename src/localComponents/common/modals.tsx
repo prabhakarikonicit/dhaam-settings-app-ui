@@ -723,7 +723,7 @@ const ImageUpload: React.FC<{
 };
 
 // CustomModal Component
-const  CustomModal= <T extends BaseItem>({
+const CustomModal = <T extends BaseItem>({
   isOpen,
   onClose,
   mode,
@@ -744,10 +744,13 @@ const  CustomModal= <T extends BaseItem>({
   isLoading = false,
   formLayout = "standard",
   gridColumns = 2,
-}: CustomModalProps<T>)  => {
+  additionalButton,
+}: CustomModalProps<T>) => {
   const [formData, setFormData] = useState<Record<string, any>>(
     item || ({} as T)
   );
+
+  const [showSecret, setShowSecret] = useState(false);
 
   useEffect(() => {
     if (isOpen && item) {
@@ -790,9 +793,8 @@ const  CustomModal= <T extends BaseItem>({
     const isDisabled = mode === "view" || field.disabled;
     const value = formData[field.id] !== undefined ? formData[field.id] : "";
 
-    const baseInputClass = `w-full px-3 py-2 border border-reloadBorder rounded-custom8px text-cardTitle focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-      isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
-    } border-gray-300 ${field.inputClassName || ""}`;
+    const baseInputClass = `w-full px-3 py-2 border border-reloadBorder rounded-custom8px text-cardTitle focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter font-[400] text-[14px] ${isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
+      } border-gray-300 ${field.inputClassName || ""}`;
 
     // If field has custom render function, use it
     if (field.customRender) {
@@ -801,6 +803,55 @@ const  CustomModal= <T extends BaseItem>({
         onChange: (newValue) => handleChange(field.id, newValue),
         disabled: isDisabled
       });
+    }
+
+    if (field.id === "apiEndpoint") {
+      return (
+        <div className="relative">
+          <input
+            type={showSecret ? "text" : "password"} // Toggle between text and password
+            id={field.id}
+            value={value}
+            onChange={(e) => handleChange(field.id, e.target.value)}
+            placeholder={field.placeholder || ""}
+            disabled={isDisabled}
+            className={baseInputClass}
+          />
+          <button
+            type="button" // Prevents form submission
+            onClick={() => setShowSecret(!showSecret)} // Toggles visibility
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            disabled={isDisabled}
+          >
+            <EyeIcon />
+          </button>
+        </div>
+      );
+    }
+
+
+    if (field.id === "token") {
+      return (
+        <div className="relative">
+          <input
+            type={showSecret ? "text" : "password"} // Toggle between text and password
+            id={field.id}
+            value={value}
+            onChange={(e) => handleChange(field.id, e.target.value)}
+            placeholder={field.placeholder || ""}
+            disabled={isDisabled}
+            className={baseInputClass}
+          />
+          <button
+            type="button" // Prevents form submission
+            onClick={() => setShowSecret(!showSecret)} // Toggles visibility
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            disabled={isDisabled}
+          >
+            <EyeIcon />
+          </button>
+        </div>
+      );
     }
 
     switch (field.type) {
@@ -814,7 +865,7 @@ const  CustomModal= <T extends BaseItem>({
         );
       case "select":
         return (
-          <div className="relative">
+          <div className="relative font-inter font-[400] text-[14px]">
             <select
               id={field.id}
               value={value}
@@ -824,7 +875,7 @@ const  CustomModal= <T extends BaseItem>({
             >
               <option value="">Select {field.label}</option>
               {field.options?.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value} className="font-inter font-[400] text-[14px]">
                   {option.label}
                 </option>
               ))}
@@ -976,7 +1027,7 @@ const  CustomModal= <T extends BaseItem>({
     confirmText ||
     {
       add: "Save",
-      edit: "Save Changes",
+      edit: "Save",
       view: "Close",
       delete: "Delete",
       confirm: "Confirm",
@@ -990,7 +1041,7 @@ const  CustomModal= <T extends BaseItem>({
     xl: "max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl",
     full: "max-w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-4",
   }[size];
-  
+
 
   // Button classes based on mode
   const buttonClasses = {
@@ -1007,8 +1058,8 @@ const  CustomModal= <T extends BaseItem>({
       return (
         <div className={`grid grid-cols-1 md:grid-cols-${gridColumns} sm:grid-cols-${gridColumns}  lg:grid-cols-${gridColumns} xl:grid-cols-${gridColumns} gap-4`}>
           {fields.map((field) => (
-            <div 
-              key={field.id} 
+            <div
+              key={field.id}
               className={`space-y-1 ${field.fullWidth ? `col-span-1 md:col-span-${gridColumns}` : ''} ${field.containerClassName || ''}`}
             >
               <label
@@ -1038,8 +1089,8 @@ const  CustomModal= <T extends BaseItem>({
       return (
         <div className="space-y-4">
           {fields.map((field) => (
-            <div 
-              key={field.id} 
+            <div
+              key={field.id}
               className={`space-y-1 ${field.containerClassName || ''}`}
             >
               <label
@@ -1068,7 +1119,7 @@ const  CustomModal= <T extends BaseItem>({
     <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* Modal Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black/50 transition-opacity"
         onClick={onClose}
       />
 
@@ -1091,27 +1142,27 @@ const  CustomModal= <T extends BaseItem>({
           <div className="flex items-center justify-end">
             {/* {mode === 'add' && <span className="px-4 py-1 text-[12px] font-inter font-[500] text-paragraphBlack">New</span>} */}
             <button
-                    type="button"
-                    onClick={onClose}
-                    className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack focus:outline-none focus:ring-2 focus:ring-blue-500 justify-end"
-                  >
-                    {/* {cancelText} */}
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack focus:outline-none focus:ring-2 focus:ring-blue-500 justify-end"
+            >
+              {/* {cancelText} */}
 
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M5.15128 5.15152C5.61991 4.68289 6.3797 4.68289 6.84833 5.15152L11.9998 10.303L17.1513 5.15152C17.6199 4.68289 18.3797 4.68289 18.8483 5.15152C19.317 5.62015 19.317 6.37995 18.8483 6.84858L13.6969 12L18.8483 17.1515C19.317 17.6202 19.317 18.3799 18.8483 18.8486C18.3797 19.3172 17.6199 19.3172 17.1513 18.8486L11.9998 13.6971L6.84833 18.8486C6.3797 19.3172 5.61991 19.3172 5.15128 18.8486C4.68265 18.3799 4.68265 17.6202 5.15128 17.1515L10.3027 12L5.15128 6.84858C4.68265 6.37995 4.68265 5.62015 5.15128 5.15152Z"
-                        fill="#636363"
-                      />
-                    </svg>
-                  </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5.15128 5.15152C5.61991 4.68289 6.3797 4.68289 6.84833 5.15152L11.9998 10.303L17.1513 5.15152C17.6199 4.68289 18.3797 4.68289 18.8483 5.15152C19.317 5.62015 19.317 6.37995 18.8483 6.84858L13.6969 12L18.8483 17.1515C19.317 17.6202 19.317 18.3799 18.8483 18.8486C18.3797 19.3172 17.6199 19.3172 17.1513 18.8486L11.9998 13.6971L6.84833 18.8486C6.3797 19.3172 5.61991 19.3172 5.15128 18.8486C4.68265 18.3799 4.68265 17.6202 5.15128 17.1515L10.3027 12L5.15128 6.84858C4.68265 6.37995 4.68265 5.62015 5.15128 5.15152Z"
+                  fill="#636363"
+                />
+              </svg>
+            </button>
             {mode === "delete" && (
               <span className="px-4 py-1 bg-red-600 text-white text-sm rounded-full">
                 Delete
@@ -1168,13 +1219,39 @@ const  CustomModal= <T extends BaseItem>({
               </div>
               {customFooter || (
                 <div className="flex space-x-3">
-                  
+                  {additionalButton && (
+                    <button
+                      type="button" // Use type="button" to prevent form submission
+                      onClick={additionalButton.onClick}
+                      disabled={additionalButton.disabled || isLoading}
+                      className={`
+      px-4 
+      py-2 
+      rounded-md 
+      text-sm 
+      font-inter 
+      font-semibold 
+      text-cardValue
+      font-[600] 
+      font-inter
+      font-[12px]
+      bg-transparent 
+      focus:outline-none 
+      hover:bg-transparent 
+      ${additionalButton.className || ""}
+      ${isLoading ? "opacity-75 cursor-not-allowed" : ""}
+    `}
+                    >
+                      {additionalButton.label}
+                    </button>
+                  )}
+
+
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${
-                      isLoading ? "opacity-75 cursor-not-allowed" : ""
-                    }`}
+                    className={`px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${isLoading ? "opacity-75 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isLoading ? (
                       <div className="flex items-center">

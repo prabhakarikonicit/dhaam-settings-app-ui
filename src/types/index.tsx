@@ -7,6 +7,18 @@ export interface ToggleSwitchProps {
   'aria-describedby'?: string;
 }
 
+export interface PaymentGateway {
+  id: string;
+  name: string;
+  apiKey: string;
+  secretKey: string;
+  isActive: boolean;
+  environment: "sandbox" | "production";
+  supportedCurrencies: string[];
+  webhookUrl?: string;
+  isDefault?: boolean;
+}
+
 export interface FileType extends Row {
   name: string;
   format: string;
@@ -119,6 +131,12 @@ export interface BaseItem {
     isLoading?: boolean;
     formLayout?: "standard" | "grid" | "custom"; // Add form layout option
     gridColumns?: number; // Number of columns for grid layout
+    additionalButton?: {
+      label: string;
+      onClick: () => void;
+      className?: string;
+      disabled?: boolean;
+    };
   }
 
   export interface CardProps {

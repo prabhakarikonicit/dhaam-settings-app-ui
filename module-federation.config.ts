@@ -4,6 +4,7 @@ export const mfConfig = {
     "./ConfigurationsComponent": "./src/localComponents/configurations/configurationscomponent",
     "./MarketPlaceDesignComponent": "./src/localComponents/marketPlaceDesign/marketplacedesigncomponent",
     "./IntegrationComponent": "./src/localComponents/integration/integrationComponent",
+    "./GeneralComponent": "./src/localComponents/general/generalComponent",
     "./tailwindStyles": "./src/index.css"
   },
   shared: ["react", "react-dom"],

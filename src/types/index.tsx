@@ -7,6 +7,17 @@ export interface ToggleSwitchProps {
   'aria-describedby'?: string;
 }
 
+export interface FileType extends Row {
+  name: string;
+  format: string;
+  altText: string;
+  dateAdded: string;
+  size: string;
+  thumbnail?: string;
+  active?: boolean;
+  file?: File; // Add actual file reference for potential preview
+}
+
 export interface Column {
   field: string;
   headerName: string;

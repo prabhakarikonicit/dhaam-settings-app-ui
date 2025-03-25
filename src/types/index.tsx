@@ -19,6 +19,163 @@ export interface PaymentGateway {
   isDefault?: boolean;
 }
 
+export interface PreferenceOption {
+  id: string;
+  title: string;
+  description: string;
+  enabled: boolean;
+}
+
+// Policy interface
+export interface Policy {
+  id: string;
+  name: string;
+  description: string;
+  createdOn: string;
+  isActive: boolean;
+  url?: string;
+}
+
+// Props for the PoliciesAndPages component
+export interface PoliciesAndPagesProps {
+  onSave?: () => void;
+  onCancel?: () => void;
+  initialPolicies?: Policy[];
+}
+
+export interface PaymentTransaction {
+  id: string;
+  transactionId: string;
+  transactionDate: string;
+  time: string;
+  status: string;
+  store: string;
+  amount: number;
+}
+
+export interface TimeSelectorProps {
+    value: string;
+    onChange: (value: string) => void;
+  }
+  
+export interface DayScheduleProps {
+  day: string;
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
+}
+
+// Define the Location interface
+export interface Location {
+  id: string;
+  name: string;
+  description: string;
+  type: "Geofence" | "Fixed" | "Percentage";
+  createdOn: string;
+  isActive: boolean;
+}
+
+// Define the City interface
+export interface City {
+  id: string;
+  name: string;
+  description: string;
+  chargeType: "Fixed" | "Percentage";
+  isActive: boolean;
+}
+
+// Props for the LocationManagement component
+export interface LocationManagementProps {
+  onSave?: () => void;
+  onCancel?: () => void;
+  initialCities?: City[];
+  initialGeofences?: Location[];
+}
+
+export interface LanguageOption {
+  value: string;
+  label: string;
+  checked?: boolean;
+}
+
+export interface CustomerRightsProps {
+  onClose: () => void;
+  onSave: (data: any) => void;
+}
+
+export interface StaffMember {
+  id: string;
+  name: string;
+  createdOn: string;
+  time: string;
+  status: "Paid" | "Pending" | "Failed";
+  description: string;
+}
+
+export interface AddStaffProps {
+  onClose: () => void;
+  onSave: (data: any) => void;
+}
+export interface Permission {
+  id: string;
+  name: string;
+  enabled: boolean;
+  actions: {
+    id: string;
+    name: string;
+    enabled: boolean;
+  }[];
+  isCollapsible?: boolean;
+}
+
+export interface PermissionSectionProps {
+  section: Permission;
+  onToggle: (sectionId: string, actionId?: string) => void;
+  isExpanded: boolean;
+  onExpand: () => void;
+}
+
+export interface CheckoutProps {
+  onClose: () => void;
+  onSave: (data: any) => void;
+}
+// Props for the TaxManagement component
+export interface TaxManagementProps {
+  onSave?: () => void;
+  onCancel?: () => void;
+}
+
+// Define the Tax interface
+export interface Taxes {
+  id: string;
+  name: string;
+  value: number;
+  type: "Fixed" | "Percentage";
+  applicableOn: "Marketplace" | "Product" | "Delivery" | "Store";
+  enabled: boolean;
+  applicableType?: string;
+  serviceFeeAppliedOn?: string;
+  selectMerchant?: string;
+}
+
+export interface Tax {
+  id: string;
+  name: string;
+  value: number;
+  type: "Fixed" | "Percentage";
+  applicableOn: "Marketplace" | "Product" | "Delivery" | "Store";
+  enabled: boolean;
+}
+
+export interface BillingItem {
+  id: string;
+  billNumber: string;
+  billType: string;
+  status: "Paid" | "Pending" | "Failed";
+  amount: number;
+  date: string;
+  time: string;
+}
+
 export interface FileType extends Row {
   name: string;
   format: string;

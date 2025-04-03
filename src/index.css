@@ -93,6 +93,10 @@
   --radius-custom100px: 100px;
 }
 
+input[type="checkbox"] {
+  accent-color: var(--background-color-bgButton);
+}
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
